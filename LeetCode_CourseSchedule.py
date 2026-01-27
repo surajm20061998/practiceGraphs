@@ -26,6 +26,7 @@ class Solution:
                 return True
             elif state == VISITING:
                 return False
+            #If state is visiting that means we are back to the node we started on and that is a cycle
 
             states[node] = VISITING
             for nei in g[node]:
@@ -37,6 +38,7 @@ class Solution:
         for i in range(numCourses):
             if not dfs(i):
                 return False
+            #if dfs gives false, that means there is a cycle ad hence not possible to complete all courses
         return True
         
 
