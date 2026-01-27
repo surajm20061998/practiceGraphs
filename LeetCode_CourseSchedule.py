@@ -42,4 +42,45 @@ class Solution:
         return True
         
 
-        
+#HOW TO DO THE SAME WITHOUT RECURSION?
+
+from collections import defaultdict
+from typing import List
+
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        g = defaultdict(list)
+        for a, b in prerequisites:
+            g[a].append(b)
+
+        UNVISITED, VISITING, VISITED = 0, 1, 2
+        state = [UNVISITED] * numCourses
+
+        for start in range(numCourses):
+            if state[start] != UNVISITED:
+                continue
+
+            stack = [(start, 0)]  # (node, phase) phase=0 enter, phase=1 exit
+
+            while stack:
+                node, phase = stack.pop()
+
+                if phase == 0:  # entering
+                    if state[node] == VISITING:
+                        return False  # back-edge -> cycle
+                    if state[node] == VISITED:
+                        continue
+
+                    state[node] = VISITING
+                    stack.append((node, 1))  # schedule exit
+
+                    for nei in g[node]:
+                        if state[nei] == VISITING:
+                            return False
+                        if state[nei] == UNVISITED:
+                            stack.append((nei, 0))
+
+                else:  # exiting
+                    state[node] = VISITED
+
+        return True
