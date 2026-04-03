@@ -1,3 +1,5 @@
+#Solved again on 3rd april
+#Intuition is to maintain an order list and perform a topological sort on top of cycle detection done previously
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
 
